@@ -73,7 +73,7 @@ export const binPayouts: Record<RowCount, Record<RiskLevel, number[]>> = {
     [RiskLevel.HIGH]: [120, 14, 5.2, 1.4, 0.4, 0.2, 0.2, 0.4, 1.4, 5.2, 14, 120],
   },
   12: {
-    [RiskLevel.LOW]: [10, 3, 1.6, 1.4, 1.1, 1, 0.5, 1, 1.1, 1.4, 1.6, 3, 10],
+    [RiskLevel.LOW]: [10, 3, 1.6, 1.4, 1.1, 1, 0, 1, 1.1, 1.4, 1.6, 3, 10],
     [RiskLevel.MEDIUM]: [33, 11, 4, 2, 1.1, 0.6, 0.3, 0.6, 1.1, 2, 4, 11, 33],
     [RiskLevel.HIGH]: [170, 24, 8.1, 2, 0.7, 0.2, 0.2, 0.2, 0.7, 2, 8.1, 24, 170],
   },
