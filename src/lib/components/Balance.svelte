@@ -10,7 +10,7 @@
     }),
   );
 
-  const addMoneyAmounts = [1000000000000, 1000000000000000, 1000000000000000000000];
+  const addMoneyAmounts = [1, 1000000000000000, 1000000000000000000000000000000000000000];
 </script>
 
 <div class="flex overflow-hidden rounded-md">
