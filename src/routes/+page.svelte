@@ -61,7 +61,7 @@
           class="flex items-center gap-1 p-1 text-sm text-slate-500 transition hover:text-cyan-500"
         >
           <GitHubLogo class="size-4" weight="bold" />
-          <span>Source Code</span>
+          <span>Dean</span>
         </a>
       </div>
     </div>
