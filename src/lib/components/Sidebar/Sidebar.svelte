@@ -127,7 +127,7 @@
         disabled={autoBetInterval !== null}
         onclick={() => (betMode = value)}
         class={twMerge(
-          'flex-1 rounded-full py-2 text-sm font-medium text-white transition disabled:cursor-not-allowed disabled:opacity-50 hover:[&:not(:disabled)]:bg-slate-600 active:[&:not(:disabled)]:bg-slate-500',
+          'flex-1 rounded-full py-2 text-sm font-medium text-white transition hover:not-disabled:bg-slate-600 active:not-disabled:bg-slate-500 disabled:cursor-not-allowed disabled:opacity-50',
           betMode === value && 'bg-slate-600',
         )}
       >
@@ -150,19 +150,19 @@
           step="0.01"
           inputmode="decimal"
           class={twMerge(
-            'w-full rounded-l-md border-2 border-slate-600 bg-slate-900 py-2 pl-7 pr-2 text-sm text-white transition-colors hover:cursor-pointer focus:border-slate-500 focus:outline-none disabled:cursor-not-allowed  disabled:opacity-50 hover:[&:not(:disabled)]:border-slate-500',
+            'w-full rounded-l-md border-2 border-slate-600 bg-slate-900 py-2 pr-2 pl-7 text-sm text-white transition-colors hover:cursor-pointer hover:not-disabled:border-slate-500 focus:border-slate-500 focus:outline-hidden  disabled:cursor-not-allowed disabled:opacity-50',
             (isBetAmountNegative || isBetExceedBalance) &&
-              'border-red-500 focus:border-red-400 hover:[&:not(:disabled)]:border-red-400',
+              'border-red-500 hover:not-disabled:border-red-400 focus:border-red-400',
           )}
         />
-        <div class="absolute left-3 top-2 select-none text-slate-500" aria-hidden="true">$</div>
+        <div class="absolute top-2 left-3 text-slate-500 select-none" aria-hidden="true">$</div>
       </div>
       <button
         disabled={autoBetInterval !== null}
         onclick={() => {
           $betAmount = parseFloat(($betAmount / 2).toFixed(2));
         }}
-        class="touch-manipulation bg-slate-600 px-4 font-bold diagonal-fractions text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:[&:not(:disabled)]:bg-slate-500 active:[&:not(:disabled)]:bg-slate-400"
+        class="touch-manipulation bg-slate-600 px-4 font-bold text-white diagonal-fractions transition-colors hover:not-disabled:bg-slate-500 active:not-disabled:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50"
       >
         1/2
       </button>
@@ -171,7 +171,7 @@
         onclick={() => {
           $betAmount = parseFloat(($betAmount * 2).toFixed(2));
         }}
-        class="relative touch-manipulation rounded-r-md bg-slate-600 px-4 text-sm font-bold text-white transition-colors after:absolute after:left-0 after:inline-block after:h-1/2 after:w-[2px] after:bg-slate-800 after:content-[''] disabled:cursor-not-allowed disabled:opacity-50 hover:[&:not(:disabled)]:bg-slate-500 active:[&:not(:disabled)]:bg-slate-400"
+        class="relative touch-manipulation rounded-r-md bg-slate-600 px-4 text-sm font-bold text-white transition-colors after:absolute after:left-0 after:inline-block after:h-1/2 after:w-[2px] after:bg-slate-800 after:content-[''] hover:not-disabled:bg-slate-500 active:not-disabled:bg-slate-400 disabled:cursor-not-allowed disabled:opacity-50"
       >
         2×
       </button>
@@ -214,7 +214,6 @@
             <Question class="text-slate-300" weight="bold" />
           </Popover.Trigger>
           <Popover.Content
-            transition={flyAndScale}
             class="z-30 max-w-lg rounded-md bg-white p-3 text-sm font-medium text-gray-950 drop-shadow-xl"
           >
             <p>Enter '0' for unlimited bets.</p>
@@ -232,12 +231,12 @@
           min="0"
           inputmode="numeric"
           class={twMerge(
-            'w-full rounded-md border-2 border-slate-600 bg-slate-900 py-2 pl-3 pr-8 text-sm text-white transition-colors hover:cursor-pointer focus:border-slate-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 hover:[&:not(:disabled)]:border-slate-500',
+            'w-full rounded-md border-2 border-slate-600 bg-slate-900 py-2 pr-8 pl-3 text-sm text-white transition-colors hover:cursor-pointer hover:not-disabled:border-slate-500 focus:border-slate-500 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
             isAutoBetInputNegative && 'border-red-500 hover:border-red-400 focus:border-red-400',
           )}
         />
         {#if autoBetInput === 0}
-          <Infinity class="absolute right-3 top-3 size-4 text-slate-400" weight="bold" />
+          <Infinity class="absolute top-3 right-3 size-4 text-slate-400" weight="bold" />
         {/if}
       </div>
       {#if isAutoBetInputNegative}
@@ -265,12 +264,10 @@
 
   <div class="mt-auto pt-5">
     <div class="flex items-center gap-4 border-t border-slate-600 pt-3">
-      <!-- Settings Button -->
-      <Tooltip.Root openDelay={0} closeOnPointerDown={false}>
-        <Tooltip.Trigger asChild let:builder>
-          <button
-            use:builder.action
-            {...builder}
+      <Tooltip.Provider delayDuration={0} disableCloseOnTriggerClick>
+        <!-- Settings Button -->
+        <Tooltip.Root>
+          <Tooltip.Trigger
             onclick={() => ($isGameSettingsOpen = !$isGameSettingsOpen)}
             class={twMerge(
               'rounded-full p-2 text-slate-300 transition hover:bg-slate-600 active:bg-slate-500',
@@ -278,24 +275,28 @@
             )}
           >
             <GearSix class="size-6" weight="fill" />
-          </button>
-        </Tooltip.Trigger>
-        <Tooltip.Content
-          inTransition={flyAndScale}
-          sideOffset={4}
-          class="z-30 max-w-lg rounded-md bg-white p-3 text-sm font-medium text-gray-950 drop-shadow-xl"
-        >
-          <Tooltip.Arrow />
-          <p>{$isGameSettingsOpen ? 'Close' : 'Open'} Game Settings</p>
-        </Tooltip.Content>
-      </Tooltip.Root>
+          </Tooltip.Trigger>
+          <Tooltip.Content
+            forceMount
+            sideOffset={4}
+            class="z-30 max-w-lg rounded-md bg-white p-3 text-sm font-medium text-gray-950 drop-shadow-xl"
+          >
+            {#snippet child({ wrapperProps, props, open })}
+              {#if open}
+                <div {...wrapperProps}>
+                  <div {...props} transition:flyAndScale>
+                    <Tooltip.Arrow class="text-white" />
+                    <p>{$isGameSettingsOpen ? 'Close' : 'Open'} Game Settings</p>
+                  </div>
+                </div>
+              {/if}
+            {/snippet}
+          </Tooltip.Content>
+        </Tooltip.Root>
 
-      <!-- Live Stats Button -->
-      <Tooltip.Root openDelay={0} closeOnPointerDown={false}>
-        <Tooltip.Trigger asChild let:builder>
-          <button
-            use:builder.action
-            {...builder}
+        <!-- Live Stats Button -->
+        <Tooltip.Root>
+          <Tooltip.Trigger
             onclick={() => ($isLiveStatsOpen = !$isLiveStatsOpen)}
             class={twMerge(
               'rounded-full p-2 text-slate-300 transition hover:bg-slate-600 active:bg-slate-500',
@@ -303,17 +304,25 @@
             )}
           >
             <ChartLine class="size-6" weight="bold" />
-          </button>
-        </Tooltip.Trigger>
-        <Tooltip.Content
-          transition={flyAndScale}
-          sideOffset={4}
-          class="z-30 max-w-lg rounded-md bg-white p-3 text-sm font-medium text-gray-950 drop-shadow-xl"
-        >
-          <Tooltip.Arrow />
-          <p>{$isLiveStatsOpen ? 'Close' : 'Open'} Live Stats</p>
-        </Tooltip.Content>
-      </Tooltip.Root>
+          </Tooltip.Trigger>
+          <Tooltip.Content
+            forceMount
+            sideOffset={4}
+            class="z-30 max-w-lg rounded-md bg-white p-3 text-sm font-medium text-gray-950 drop-shadow-xl"
+          >
+            {#snippet child({ wrapperProps, props, open })}
+              {#if open}
+                <div {...wrapperProps}>
+                  <div {...props} transition:flyAndScale>
+                    <Tooltip.Arrow class="text-white" />
+                    <p>{$isLiveStatsOpen ? 'Close' : 'Open'} Live Stats</p>
+                  </div>
+                </div>
+              {/if}
+            {/snippet}
+          </Tooltip.Content>
+        </Tooltip.Root>
+      </Tooltip.Provider>
     </div>
   </div>
 </div>
