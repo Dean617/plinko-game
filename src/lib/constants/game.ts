@@ -24,7 +24,10 @@ export type RowCount = (typeof rowCountOptions)[number];
 /**
  * Interval (in milliseconds) for placing auto bets.
  */
-export const autoBetIntervalMs = 100;
+/** 
+ * export const autoBetIntervalMs = 100;
+ */
+export const autoBetIntervalMs = 1;
 
 /**
  * For each row count, the background and shadow colors of each bin.
