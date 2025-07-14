@@ -45,23 +45,23 @@
       <div class="flex items-center justify-between p-2">
         <p class="text-sm text-slate-500">
           <a
-            href="https://www.youtube.com/@deanpickett"
+            href="https://www.youtube.com/@plinkogod"
             target="_blank"
             rel="noreferrer"
             class=" text-cyan-600 transition hover:text-cyan-500"
           >
-            Dean Pickett
+            Stake
           </a>
           © {new Date().getFullYear()}
         </p>
         <a
-          href="https://www.youtube.com/@deanpickett"
+          href="https://www.youtube.com/@plinkogod"
           target="_blank"
           rel="noreferrer"
           class="flex items-center gap-1 p-1 text-sm text-slate-500 transition hover:text-cyan-500"
         >
           <GitHubLogo class="size-4" weight="bold" />
-          <span>Dean</span>
+          <span>Stake</span>
         </a>
       </div>
     </div>
